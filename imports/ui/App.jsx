@@ -39,12 +39,15 @@ class App extends Component {
         }
     }
 
-    onUserEnter(userName){
-        var yo = this;
+    // el parametro no es usado dentro del método
+    onUserEnter(){
+        //usar let o const en lugar de var
+        const yo = this;
         Tracker.autorun (function() {
             const userID = Meteor.user()._id;
             Meteor.call("user.find", userID, (error, result) => {
-                if (result == undefined) {
+                // en ente caso == podria causar resultados extraños, es mejor usar ===
+                if (result === undefined) {
                     Meteor.call("user.create", userID,  function (error2, result2) {
                         yo.setState({
                             currentUser : result2
@@ -75,7 +78,7 @@ class App extends Component {
             text: text,
             author: author,
             date: (new Date()).toDateString() + " " + (new Date()).toLocaleTimeString() 
-        }
+        }; // falta ;
         Meteor.call("chats.send", newMessage, this.state.currentChat, (error, result) => {
             this.setState({
                 currentChat: result
@@ -94,7 +97,8 @@ class App extends Component {
             .replace(/¿/g, " ").replace(/¡/g, " ").replace(/\scon\s/g, " ")
             .replace(/\sno\s/g, " ").replace(/\ssi\s/g, " ").split(/\s+/);
 
-            var wordsMap = {};
+            //usar let o const en lugar de var
+            let wordsMap = {};
             words.forEach(function (key) {
               if (wordsMap.hasOwnProperty(key)) {
                 wordsMap[key]++;
@@ -103,7 +107,7 @@ class App extends Component {
               }
             });
     
-            var finalWordsArray = [];
+            let finalWordsArray = [];
             finalWordsArray = Object.keys(wordsMap).map(function (key) {
               return {
                 name: key,
@@ -129,7 +133,7 @@ class App extends Component {
             nogive : 0,
             better : 0,
             keywords : keywords.slice(0,3)
-        }
+        };
         Tracker.autorun (() => {
             Meteor.call('posts.insert', newPost, (error, result) => {
                 let chat = {
