@@ -24,11 +24,11 @@ Meteor.methods({
 
         let searchForChat = Chatrooms.find({keywords : chat.keywords});
 
-        if(searchForChat.count() == 0){
+        if(searchForChat.count() === 0){
             chat._id = Chatrooms.insert(chat);
             return chat;
         }else {
-            var randomChat = Math.floor(Math.random()*searchForChat.count());
+            let randomChat = Math.floor(Math.random()*searchForChat.count());
             chat = searchForChat.fetch()[randomChat];
             return chat;
         } 
